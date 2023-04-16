@@ -38,14 +38,17 @@ func main() {
 	w := a.NewWindow("Dash")
 
 	temp := canvas.NewImageFromResource(theme.NewThemedResource(resourceTemperatureSvg))
-	temp.SetMinSize(fyne.NewSize(50, 50))
+	temp.FillMode = canvas.ImageFillContain
+	temp.SetMinSize(fyne.NewSize(150, 80))
 	dir := canvas.NewImageFromResource(theme.NewThemedResource(resourceDirectionsSvg))
-	dir.SetMinSize(fyne.NewSize(50, 50))
+	dir.FillMode = canvas.ImageFillContain
+	dir.SetMinSize(fyne.NewSize(150, 80))
 
-	w.SetContent(container.NewGridWithColumns(3,
+	w.SetContent(container.NewBorder(nil, nil,
 		container.NewCenter(temp),
+		container.NewCenter(dir),
 		speedo(),
-		container.NewCenter(dir)))
+	))
 
 	selfManage(a, w)
 	w.ShowAndRun()

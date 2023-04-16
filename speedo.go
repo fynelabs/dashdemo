@@ -21,11 +21,11 @@ type dialLayout struct {
 
 	canvas fyne.CanvasObject
 	stop   bool
-	value float64
+	value  float64
 }
 
 func (c *dialLayout) rotate(hand *canvas.Line, middle fyne.Position, facePosition float64, offset, length float32) {
-	rotation := math.Pi * 1.5 / 120 * facePosition - math.Pi/4*3
+	rotation := math.Pi*1.5/120*facePosition - math.Pi/4*3
 	x2 := length * float32(math.Sin(rotation))
 	y2 := -length * float32(math.Cos(rotation))
 
@@ -44,16 +44,16 @@ func (c *dialLayout) Layout(_ []fyne.CanvasObject, size fyne.Size) {
 	c.setPosition(c.value, size)
 }
 
-func (c *dialLayout) setPosition(v float64, size fyne.Size) {
+func (c *dialLayout) setPosition(v float64, space fyne.Size) {
 	c.value = v
-	diameter := fyne.Min(size.Width, size.Height)
+	diameter := fyne.Min(space.Width, space.Height)
 	radius := diameter / 2
 	stroke := diameter / 50
 	midStroke := diameter / 80
 	smallStroke := diameter / 200
 
-	size = fyne.NewSize(diameter, diameter)
-	middle := fyne.NewPos(size.Width/2, size.Height/2)
+	size := fyne.NewSize(diameter, diameter)
+	middle := fyne.NewPos(space.Width/2, space.Height/2)
 	topleft := fyne.NewPos(middle.X-radius, middle.Y-radius)
 
 	c.face.Move(topleft)
@@ -62,7 +62,7 @@ func (c *dialLayout) setPosition(v float64, size fyne.Size) {
 	c.cover.Resize(fyne.NewSize(size.Width, size.Height/6))
 	c.speed.Move(topleft)
 	c.speed.Resize(size)
-	c.speed.TextSize = size.Height/3
+	c.speed.TextSize = size.Height / 3
 	c.speed.Text = fmt.Sprintf("%d", int(v))
 
 	c.needle.StrokeWidth = stroke
@@ -70,7 +70,7 @@ func (c *dialLayout) setPosition(v float64, size fyne.Size) {
 	c.face.StrokeWidth = smallStroke
 
 	for i, p := range c.pips {
-		if i % 10 == 0 {
+		if i%10 == 0 {
 			c.rotate(p, middle, float64(i), radius/4*3, radius/4)
 			p.StrokeWidth = midStroke
 		} else {
@@ -117,7 +117,7 @@ func (c *dialLayout) animate(co fyne.CanvasObject) {
 	go func() {
 		for !c.stop {
 			start := c.value
-			stop := rand.Float64()*115
+			stop := rand.Float64() * 115
 			fyne.NewAnimation(time.Second, func(v float32) {
 				val := start + (stop-start)*float64(v)
 				c.setPosition(val, co.Size())
