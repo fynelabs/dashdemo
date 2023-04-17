@@ -13,6 +13,7 @@ import (
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/theme"
+	"fyne.io/fyne/v2/widget"
 
 	"github.com/fynelabs/fyneselfupdate"
 	"github.com/fynelabs/selfupdate"
@@ -44,9 +45,13 @@ func main() {
 	dir.FillMode = canvas.ImageFillContain
 	dir.SetMinSize(fyne.NewSize(150, 80))
 
+	full := widget.NewButton("Fullscreen", func() {
+		w.SetFullScreen(!w.FullScreen())
+	})
+
 	w.SetContent(container.NewBorder(nil, nil,
 		container.NewCenter(temp),
-		container.NewCenter(dir),
+		container.NewBorder(nil, full, nil, nil, container.NewCenter(dir)),
 		speedo(),
 	))
 
