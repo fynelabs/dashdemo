@@ -113,12 +113,12 @@ func (c *dialLayout) render() *fyne.Container {
 }
 
 func (c *dialLayout) animate(co fyne.CanvasObject) {
-	tick := time.NewTicker(time.Second)
+	tick := time.NewTicker(time.Second * 2)
 	go func() {
 		for !c.stop {
 			start := c.value
-			stop := rand.Float64() * 115
-			fyne.NewAnimation(time.Second, func(v float32) {
+			stop := 10 + rand.Float64()*105
+			fyne.NewAnimation(time.Second*2, func(v float32) {
 				val := start + (stop-start)*float64(v)
 				c.setPosition(val, co.Size())
 				c.needle.Refresh()
