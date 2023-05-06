@@ -12,6 +12,7 @@ import (
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 
@@ -45,12 +46,23 @@ func main() {
 	dir.FillMode = canvas.ImageFillContain
 	dir.SetMinSize(fyne.NewSize(150, 80))
 
-	full := widget.NewButton("Fullscreen", func() {
-		w.SetFullScreen(!w.FullScreen())
-	})
+	themes := container.NewHBox(container.NewGridWithColumns(2,
+		widget.NewButton("Light", func() {
+			a.Settings().SetTheme(theme.LightTheme())
+		}),
+		widget.NewButton("Dark", func() {
+			a.Settings().SetTheme(theme.DarkTheme())
+		})),
+		layout.NewSpacer(),
+	)
+
+	full := container.NewHBox(layout.NewSpacer(),
+		widget.NewButton("Full", func() {
+			w.SetFullScreen(!w.FullScreen())
+		}))
 
 	w.SetContent(container.NewBorder(nil, nil,
-		container.NewCenter(temp),
+		container.NewBorder(nil, themes, nil, nil, container.NewCenter(temp)),
 		container.NewBorder(nil, full, nil, nil, container.NewCenter(dir)),
 		speedo(),
 	))

@@ -133,9 +133,18 @@ func (c *dialLayout) applyTheme(_ fyne.Settings) {
 	c.face.StrokeColor = theme.DisabledColor()
 	c.needle.StrokeColor = theme.ErrorColor()
 	c.speed.Color = theme.ForegroundColor()
+	c.cover.FillColor = theme.BackgroundColor()
 
-	for _, p := range c.pips {
-		p.StrokeColor = theme.DisabledColor()
+	for i, pip := range c.pips {
+		if i == 0 {
+			pip.StrokeColor = theme.ForegroundColor()
+		} else if i >= 100 && i < 110 {
+			pip.StrokeColor = theme.WarningColor()
+		} else if i >= 110 {
+			pip.StrokeColor = theme.ErrorColor()
+		} else {
+			pip.StrokeColor = theme.DisabledColor()
+		}
 	}
 }
 
