@@ -92,8 +92,8 @@ func (c *dialLayout) render() *fyne.Container {
 	c.speed.TextStyle.Monospace = true
 	c.speed.Alignment = fyne.TextAlignCenter
 
-	container := container.NewWithoutLayout(c.face, c.cover)
-	for i, _ := range c.pips {
+	dial := container.NewWithoutLayout(c.face, c.cover)
+	for i := range c.pips {
 		pip := &canvas.Line{StrokeColor: theme.DisabledColor(), StrokeWidth: 1}
 		if i == 0 {
 			pip.StrokeColor = theme.ForegroundColor()
@@ -102,14 +102,14 @@ func (c *dialLayout) render() *fyne.Container {
 		} else if i >= 110 {
 			pip.StrokeColor = theme.ErrorColor()
 		}
-		container.Add(pip)
+		dial.Add(pip)
 		c.pips[i] = pip
 	}
-	container.Objects = append(container.Objects, c.needle, c.speed)
-	container.Layout = c
+	dial.Objects = append(dial.Objects, c.needle, c.speed)
+	dial.Layout = c
 
-	c.canvas = container
-	return container
+	c.canvas = dial
+	return dial
 }
 
 func (c *dialLayout) animate(co fyne.CanvasObject) {
