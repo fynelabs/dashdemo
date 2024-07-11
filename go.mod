@@ -1,6 +1,6 @@
 module github.com/FyneLabs/dashdemo
 
-go 1.22.0
+go 1.18
 
 require (
 	fyne.io/fyne/v2 v2.4.5
